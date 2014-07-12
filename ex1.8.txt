@@ -1,0 +1,43 @@
+#include <Windows.h>
+#include <gl/glut.h>
+//#include <math.h>
+
+void init1(void)
+{
+    glClearColor(1,1,1,0);
+    glMatrixMode(GL_PROJECTION);
+    gluOrtho2D(0,200,0,150);
+}
+
+void lineSegment1(void)
+{
+    //GLfloat x1,y1,i;
+
+    glClear(GL_COLOR_BUFFER_BIT);// assigned color to display in the window
+
+    glColor3f(1,0,0); //object color i.e here line will be displayed in the red color
+
+    glBegin(GL_QUADS);
+        glVertex2i(50,30);
+        glVertex2i(60,30);
+        glVertex2i(70,90);
+        glVertex2i(10,45);        
+    glEnd();
+    glFlush();
+
+}
+
+void main(int argc,char** argv)
+{
+    glutInit(&argc,argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowPosition(50,100);
+    glutInitWindowSize(400,300);
+    glutCreateWindow("An example..");
+    init1();
+    glutDisplayFunc(lineSegment1);
+    glutMainLoop();
+}
+
+
+

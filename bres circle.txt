@@ -1,0 +1,83 @@
+#include <GL/glut.h>
+#include <math.h>
+
+#define window_wide 1300
+#define window_height 700
+
+GLfloat ax,ay,bx,by,check=0;
+void setPixel(GLint x, GLint y)
+{
+glBegin(GL_POINTS);
+glVertex2i(x,y);
+glEnd();
+glFlush();
+}
+
+void breselham_func()
+{
+GLint r = sqrt((bx-ax)*(bx-ax)+(by-ay)*(by-ay));
+GLint x = 0, y = r;
+GLint d = 3-2*r;
+while(x<=y)
+{
+setPixel(ax+x,ay+y);
+setPixel(ax+x,ay-y);
+setPixel(ax-x,ay+y);
+setPixel(ax-x,ay-y);
+setPixel(ax+y,ay+x);
+setPixel(ax+y,ay-x);
+setPixel(ax-y,ay+x);
+setPixel(ax-y,ay-x);
+if(d<0)
+{
+d = d+4*x+6;
+}
+else
+{
+d = d+4*(x-y)+10;
+y–-;
+}
+x++;
+}
+}
+
+void myMouse(GLint button, GLint state, GLint x, GLint y)
+{
+if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+{
+if(check==0)
+{
+ax = x;
+ay = window_height-y;
+check = 1;
+setPixel(ax,ay);
+}
+else if(check==1)
+{
+bx = x;
+by = window_height-y;
+check = 0;
+breselham_func();
+glFlush();
+}
+}
+}
+
+void myDisplay(void)
+{
+glClearColor(1.0,1.0,1.0,0.0);
+glColor3f(1.0,0.0,0.0);
+gluOrtho2D(0.0,window_wide,0.0,window_height);
+glClear(GL_COLOR_BUFFER_BIT);
+glutMouseFunc(myMouse);
+}
+
+void main(int argc, char** argv)
+{
+glutInitWindowSize(window_wide,window_height);
+glutInitWindowPosition(0, 0);
+glutCreateWindow("Bresenham Center Algorithm");
+glutDisplayFunc(myDisplay);
+glutMainLoop();
+
+}

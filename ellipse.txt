@@ -1,0 +1,46 @@
+   
+#include <GL/glut.h>
+#include <stdio.h>
+#include <math.h>
+
+void init(void)
+{
+  glClearColor(1.0,1.0,1.0,0.0);
+  glMatrixMode(GL_PROJECTION);
+  gluOrtho2D(0.0,200.0,0.0,200.0);
+}
+
+void setPixel(GLint x,GLint y)
+{
+  glBegin(GL_POINTS);
+     glVertex2i(x,y);
+  glEnd();
+}
+void DrawEllipse()
+{
+       glColor3f(1,1,1);
+	float x,y,z;
+	float t;
+        glBegin(GL_POINTS);
+        for(t = 0; t <= 360; t +=0.1)
+	{
+          x =100* sin(t);
+	  y = 200*cos(t);
+	  z =0;
+	 glVertex3f(x,y,z);
+       }
+       glEnd();
+	   glFlush();
+}
+int main(int argc,char **argv){
+    glutInit(&argc,argv);
+    glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
+    glutInitWindowPosition(0,0);
+    glutInitWindowSize(500,500);
+    glutCreateWindow("ellipse");
+    init();
+    glutDisplayFunc(DrawEllipse);
+    glutMainLoop();
+    return 0;
+}
+
